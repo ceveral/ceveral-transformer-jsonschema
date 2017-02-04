@@ -24,7 +24,7 @@ export class JSONSchemaVisitor extends BaseVisitor {
         let records = expression.children.filter(m => m.nodeType == Token.Record).map(m => this.visit(m));
         return records;
     }
-    visitRecordType(expression: RecordTypeExpression): any {
+    visitUserType(expression: RecordTypeExpression): any {
         let oldOptional = this.optional;
         let oldRequired = this.required;
         this.optional = false;
@@ -37,7 +37,7 @@ export class JSONSchemaVisitor extends BaseVisitor {
 
         this.optional = oldOptional;
         this.required = oldRequired
-
+        
         return out;
     }
     visitRecord(expression: RecordExpression): any {
@@ -121,6 +121,9 @@ export class JSONSchemaVisitor extends BaseVisitor {
         }
         return { type: 'object', additionalProperties: true };
     }
+
+   
+
     visitAnnotation(expression: AnnotationExpression): any {
         let formats = ['uri', 'email', 'date-time'];
         if (expression.name === 'schemaformat') {
